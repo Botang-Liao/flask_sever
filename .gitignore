@@ -11,6 +11,5 @@ test/
 **/__pycache__/
 **/venv/
 config.py
-
 # System files
 .DS_Store
