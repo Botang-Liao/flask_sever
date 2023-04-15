@@ -26,7 +26,7 @@ def user_get_info():
 @login_required
 
 def get_activity_info():
-    param = str(request.args.get('param','0'))  
+    param = str(request.args.get('type','0'))  
     sql = "SELECT * FROM Post, Activity WHERE atid = " + param + " AND acid = activity" if param != '0' else "SELECT * FROM Post, Activity WHERE acid = activity"
     datas = data_process(sql)
     return jsonify(datas)
