@@ -22,9 +22,15 @@ def data_process(sql: str) -> list:
     tuples = db.engine.execute(sql)
     for t in tuples:
         data = {}
+        #print(t._mapping.items())
         for i,j in t._mapping.items():
             print(i,j)
             data.setdefault(i,j)
         datas.append(data)
     return datas
+
+# 針對只要一個 attribute 的狀況
+def data_process_with_special_case(sql: str) -> list:
+    tuples = db.engine.execute(sql)
+    return ([i[0] for i in tuples.fetchall()])
 
