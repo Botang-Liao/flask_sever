@@ -12,16 +12,16 @@ def hello():
     return "Hello world"
 
 # 得到使用者的資訊
-@app.route(app_route + "get_info", methods=['GET'])
+@app.route(app_route + "get-info", methods=['GET'])
 @login_required
 def user_get_info():
     print(str(current_user.id))
-    sql = "SELECT * FROM User WHERE uid = " + str(current_user.id)
+    sql = "SELECT * EXCEPT (password_hash) FROM User WHERE uid = " + str(current_user.id)
     datas = data_process(sql)
     return jsonify(datas)
 
 # 得到活動資訊
-@app.route(app_route + "get_activity_info", methods=['GET'])
+@app.route(app_route + "get-activity-info", methods=['GET'])
 @login_required
 
 def get_activity_info():
