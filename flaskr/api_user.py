@@ -16,8 +16,9 @@ def hello():
 @login_required
 def user_get_info():
     print(str(current_user.id))
-    sql = "SELECT * EXCEPT (password_hash) FROM User WHERE uid = " + str(current_user.id)
+    sql = "SELECT * FROM User WHERE uid = " + str(current_user.id)
     datas = data_process(sql)
+    datas[0].pop('password_hash', None)
     return jsonify(datas)
 
 # 得到活動資訊
