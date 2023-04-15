@@ -19,15 +19,19 @@ def user_get_info():
     sql = "SELECT * FROM User WHERE uid = " + str(current_user.id)
     datas = data_process(sql)
     datas[0].pop('password_hash', None)
-    return jsonify(datas)
+    return jsonify(datas[0])
 
 # 得到活動資訊
 @app.route(app_route + "get-activity-info", methods=['GET'])
 @login_required
 
 def get_activity_info():
-    param = str(request.args.get('param','0'))  
-    sql = "SELECT * FROM Post, Activity WHERE atid = " + param + " AND acid = activity" if param != '0' else "SELECT * FROM Post, Activity WHERE acid = activity"
+    param = str(request.args.get('type','0'))  
+    sql = "SELECT title, about, date, address, number_of_people_limitation, space_available, "
+    sql += "content, expected_cost_lowerbound, expected_cost_upperbound FROM Post, Activity WHERE acid = activity"
+    if param != '0':
+        sql += (" AND atid = " + param) 
+    
     datas = data_process(sql)
     return jsonify(datas)
 
