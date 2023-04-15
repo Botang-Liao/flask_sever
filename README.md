@@ -4,15 +4,15 @@
 - Clone this repo
     ```shell
     $ https://github.com/Botang-l/flask_sever.git
-    $ cd website
+    $ cd flask_sever
     ```
 - Install the Python dependencies
     ```shell
-    $ pip3 install -r deployment/requirements.txt
+    $ pip install -r deployment/requirements.txt
     ```
 - Run the server on port 5000
     ```shell
-    $ python3 server.py
+    $ python server.py
     ```
 
 ## Project structure
