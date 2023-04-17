@@ -12,7 +12,7 @@
     ```
 - Run the server on port 5000
     ```shell
-    $ python server.py
+    $ python local_server.py
     ```
 
 ## Project structure
@@ -27,5 +27,6 @@ ITH Website/
 │   └── requirements.txt        # Python package list
 ├── flaskr/                     # backend server
 ├── README.md
+└── local_server.py
 └── server.py
 ```
