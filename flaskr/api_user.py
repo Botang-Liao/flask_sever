@@ -54,3 +54,4 @@ def get_activity_info():
     
     datas = data_process_with_special_case(sql)
     return jsonify(datas)
+
