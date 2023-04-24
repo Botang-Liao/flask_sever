@@ -44,6 +44,15 @@ def auth_logout():
     return Response(status=200)
 
 
+@app.route(URL_PREFIX + 'signup', methods=['POST'])
+def auth_sign_up():
+    email: str = request.values.get('email', '')
+    username: str = request.values.get('username','')
+    password: str = request.values.get('password', '')
+    sql = 'INSERT INTO User (email, username, password_hash, verified, last_edit) VALUES (' + '\"' + email  +'\", ' + '\"' + username +'\", ' + '\"' + password +'\", ' +'0' + ', ' + str(datetime_to_integer()) + ');'
+    print(sql)
+    db.engine.execute(sql)
+    return Response(status=200)
 
 def check_email_exist(email: str) -> bool:
     sql: str = 'SELECT email FROM User Where email = ' + email

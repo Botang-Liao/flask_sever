@@ -1,5 +1,6 @@
 from typing import Any
 from flaskr import db
+from datetime import datetime
 
 def isEmpty(*args: str) -> bool:
     """ Check if any argument in *args is an empty string. """
@@ -33,4 +34,8 @@ def data_process(sql: str) -> list:
 def data_process_with_special_case(sql: str) -> list:
     tuples = db.engine.execute(sql)
     return ([i[0] for i in tuples.fetchall()])
+
+def datetime_to_integer(time=int(datetime.now().timestamp())):
+    std_timestamp = int(datetime(2023,4,22).timestamp())
+    return(time - std_timestamp)
 
