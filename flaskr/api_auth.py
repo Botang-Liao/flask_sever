@@ -59,11 +59,11 @@ def auth_sign_up():
 
 
 def check_email_exist(email: str) -> bool:
-    sql: str = 'SELECT email FROM User Where email = ' + email
+    sql: str = 'SELECT email FROM User Where email = ' + '\"' + email + '\"'
     return(data_process(sql) != [])
     
 def check_email(email: str) -> bool:
-    sql: str = 'SELECT * FROM User Where email = ' + email
+    sql: str = 'SELECT * FROM User Where email = ' + '\"' + email + '\"'
     return(data_process(sql))
 
 def check_password(answer: str, password: str) -> bool:
