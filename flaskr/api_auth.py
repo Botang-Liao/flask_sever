@@ -32,14 +32,14 @@ def auth_login():
         abort(401)
     user = User(user_info[0]['uid'])
     login_user(user)
-    return Response(200)
+    return jsonify(success=True), 200
 
 # 登出
 @app.route(URL_PREFIX + 'logout', methods=['POST'])
 #@login_required
 def auth_logout():
     logout_user()
-    return Response(200)
+    return jsonify(success=True), 200
 
 # 註冊
 @app.route(URL_PREFIX + 'signup', methods=['POST'])
@@ -53,7 +53,7 @@ def auth_sign_up():
     sql = 'INSERT INTO User (email, username, password_hash, verified, score, last_edit) VALUES (?, ?, ?, ?, ?, ?);'
     param = (data['email'], data['username'], generate_password_hash(data['password']), 0, 5, datetime_to_integer())
     db.engine.execute(sql, param)
-    return Response(200)
+    return jsonify(success=True), 200
 
 
 

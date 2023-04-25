@@ -83,5 +83,5 @@ def set_info():
     db.engine.execute(sql, tuples)
     print(datas)
 
-    return Response(200)
+    return jsonify(success=True), 200
     
