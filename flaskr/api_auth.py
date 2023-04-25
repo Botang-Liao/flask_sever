@@ -49,7 +49,7 @@ def auth_sign_up():
         abort(400)
     if check_email_exist(email=data['email']):
         abort(403)
-    sql = 'INSERT INTO User (email, username, password_hash, verified, last_edit) VALUES (' + '\"' + data['email']  +'\", ' + '\"' + data['username'] +'\", ' + '\"' + data['password'] +'\", ' +'0' + ', ' + str(datetime_to_integer()) + ');'
+    sql = 'INSERT INTO User (email, username, password_hash, verified, last_edit) VALUES (' + '\"' + data['email']  +'\", ' + '\"' + data['username'] +'\", ' + '\"' + generate_password_hash(data['password']) +'\", ' +'0' + ', ' + str(datetime_to_integer()) + ');'
     db.engine.execute(sql)
     return jsonify(success=True), 200
 
