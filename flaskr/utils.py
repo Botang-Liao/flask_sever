@@ -67,8 +67,4 @@ def check_email(email: str) -> bool:
 
 def check_password(answer: str, password: str) -> bool:
     ans: bool = check_password_hash(answer, password)
-   
-    #ans: bool = (answer == password)
-    #print('ans :', answer)
-    #print('check_password :', ans)
     return(ans)
