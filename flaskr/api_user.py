@@ -73,9 +73,10 @@ def set_info():
         if (i == 'password') and (not isEmpty(data[i])):
             tuples.append(generate_password_hash(data[i]))
         else:
-            tuples.append(data[i]) 
+            tuples.append(data[i])
+
+    tuples.append(datetime_to_integer()) 
     tuples.append(current_user.id)
-    tuples.append(datetime_to_integer())
     sql = "UPDATE User SET email=?, username=?, password_hash=?, education=?, about=?, language=?, other_info=?, last_edit=? WHERE uid = ?"
     tuples = tuple(tuples)
     print(tuples)
