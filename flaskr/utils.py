@@ -20,7 +20,23 @@ def isNone(*args: Any) -> bool:
 def data_process(sql: str) -> list:
     """ Execute SQL and make data type be list. """
     datas = []
+    
     tuples = db.engine.execute(sql)
+    for t in tuples:
+        data = {}
+        #print(t._mapping.items())
+        for i,j in t._mapping.items():
+            print(i,j)
+            data.setdefault(i,j)
+        datas.append(data)
+    return datas
+
+def data_process_with_param(sql: str, param : tuple) -> list:
+    """ Execute SQL and make datatype be a list. """
+    datas = []
+    print('sql語法:', sql)
+    print('sql參數:', param)
+    tuples = db.engine.execute(sql, param)
     for t in tuples:
         data = {}
         #print(t._mapping.items())
@@ -40,3 +56,18 @@ def datetime_to_integer():
     std_timestamp = int(datetime(2023,4,22).timestamp())
     return(time - std_timestamp)
 
+def check_email_exist(email: str) -> bool:
+    sql: str = 'SELECT email FROM User Where email = ' + '\"' + email + '\"'
+    return(data_process(sql) != [])
+    
+def check_email(email: str) -> bool:
+    sql: str = 'SELECT * FROM User Where email = ' + '\"' + email + '\"'
+    return(data_process(sql))
+
+def check_password(answer: str, password: str) -> bool:
+    #ans: bool = check_password_hash(answer, password)
+   
+    ans: bool = (answer == password)
+    print('ans :', answer)
+    print('check_password :', ans)
+    return(ans)

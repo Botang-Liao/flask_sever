@@ -1,8 +1,11 @@
 from flask import request, jsonify, abort
+from flask.wrappers import Response
 from flaskr import app
 from flaskr.utils import *
 from flask_login import current_user, login_required
 from flaskr.user import User
+from typing import Any, Dict, List, Union
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app_route = '/api/user/'
 
@@ -24,7 +27,6 @@ def user_get_info():
 # 得到活動資訊
 @app.route(app_route + "get-post-info", methods=['GET'])
 @login_required
-
 def get_post_info():
     param = str(request.args.get('type','0'))  
     sql = "SELECT title, about, date, address, number_of_people_limitation, space_available, "
@@ -55,3 +57,32 @@ def get_activity_info():
     datas = data_process_with_special_case(sql)
     return jsonify(datas)
 
+# 修改使用者資訊
+@app.route(app_route + "set-info", methods=['POST'])
+@login_required
+def set_info():
+    data: dict = request.get_json()
+
+    if isEmpty(data['email'], data['username'], data['password']):
+        abort(400)
+
+    sql = "SELECT * FROM User WHERE uid = ?;"
+    datas = data_process_with_param(sql, (current_user.id))[0]
+    tuples = []
+    for i in data:
+        if (i == 'password') and (not isEmpty(data[i])):
+            tuples.append(generate_password_hash(data[i]))
+        else:
+            tuples.append(data[i]) 
+    tuples.append(current_user.id)
+    tuples.append(datetime_to_integer())
+    sql = "UPDATE User SET email=?, username=?, password_hash=?, education=?, about=?, language=?, other_info=?, last_edit=? WHERE uid = ?"
+    tuples = tuple(tuples)
+    print(tuples)
+    db.engine.execute(sql, tuples)
+    print(datas)
+
+    
+
+    return jsonify(success=True), 200
+    

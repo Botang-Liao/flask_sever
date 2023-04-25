@@ -27,55 +27,32 @@ def auth_check_email():
 # 登入
 @app.route(URL_PREFIX + 'login', methods=['POST'])
 def auth_login():
-    # email: str = request.values.get('email', '')
-    # password: str = request.values.get('password', '')
-    # user_info: list = check_email(email)
     data: dict = request.get_json()
     user_info: list = check_email(data['email'])
-    print(type(data))
-    print(data)
     if (user_info==[]) or (not check_password(user_info[0]['password_hash'], data['password'])):
         abort(401)
     user = User(user_info[0]['uid'])
     login_user(user)
-    return Response(status=200)
+    return jsonify(success=True), 200
 
 # 登出
 @app.route(URL_PREFIX + 'logout', methods=['POST'])
 #@login_required
 def auth_logout():
     logout_user()
-    return Response(status=200)
+    return jsonify(success=True), 200
 
 # 註冊
 @app.route(URL_PREFIX + 'signup', methods=['POST'])
 def auth_sign_up():
     data: dict = request.get_json()
-    #email: str = request.values.get('email', '')
-    #username: str = request.values.get('username','')
-    #password: str = request.values.get('password', '')
-    
     if isEmpty(data['email'], data['username'], data['password']):
         abort(400)
     if check_email_exist(email=data['email']):
         abort(403)
     sql = 'INSERT INTO User (email, username, password_hash, verified, last_edit) VALUES (' + '\"' + data['email']  +'\", ' + '\"' + data['username'] +'\", ' + '\"' + data['password'] +'\", ' +'0' + ', ' + str(datetime_to_integer()) + ');'
     db.engine.execute(sql)
-    return Response(status=200)
+    return jsonify(success=True), 200
 
 
-def check_email_exist(email: str) -> bool:
-    sql: str = 'SELECT email FROM User Where email = ' + '\"' + email + '\"'
-    return(data_process(sql) != [])
-    
-def check_email(email: str) -> bool:
-    sql: str = 'SELECT * FROM User Where email = ' + '\"' + email + '\"'
-    return(data_process(sql))
 
-def check_password(answer: str, password: str) -> bool:
-    #ans: bool = check_password_hash(answer, password)
-   
-    ans: bool = (answer == password)
-    print('ans :', answer)
-    print('check_password :', ans)
-    return(ans)
