@@ -52,10 +52,21 @@ def data_process_with_special_case(sql: str) -> list:
     tuples = db.engine.execute(sql)
     return ([i[0] for i in tuples.fetchall()])
 
-def datetime_to_integer():
+def datetime_now_to_integer():
     time=int(datetime.now().timestamp())
     std_timestamp = int(datetime(2023,4,22).timestamp())
     return(time - std_timestamp)
+
+def datetime_to_integer(time : datetime) -> int:
+    time=int(time.timestamp())
+    std_timestamp = int(datetime(2023,4,22).timestamp())
+    return(time - std_timestamp)
+
+def integer_to_datetime(integer : int) -> datetime:
+    std_timestamp = int(datetime(2023, 4, 22).timestamp())
+    timestamp = std_timestamp + integer
+    dt = datetime.fromtimestamp(timestamp)
+    return dt
 
 def check_email_exist(email: str) -> bool:
     sql: str = 'SELECT email FROM User Where email = ' + '\"' + email + '\"'

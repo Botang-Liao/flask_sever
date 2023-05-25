@@ -75,7 +75,7 @@ def set_info():
         else:
             tuples.append(data[i])
 
-    tuples.append(datetime_to_integer()) 
+    tuples.append(datetime_now_to_integer()) 
     tuples.append(current_user.id)
     sql = "UPDATE User SET email=?, username=?, password_hash=?, education=?, about=?, language=?, other_info=?, last_edit=? WHERE uid = ?"
     tuples = tuple(tuples)
@@ -85,3 +85,44 @@ def set_info():
 
     return jsonify(success=True), 200
     
+# 新增活動
+@app.route(app_route + "add-post", methods=['POST'])
+@login_required
+def add_post():
+    data: dict = request.get_json()
+    keys =', '.join(['uid', 'time'] + list(data.keys())) 
+    params = [current_user.id, datetime_now_to_integer()] + list(data.values())
+    qm = '?, ' * (len(params)-1) + '?'
+    params = tuple(params) 
+    
+    try:
+        sql = 'INSERT INTO Post (' + keys + ') VALUES (' + qm + ')'
+        #sql = 'INSERT INTO Post (uid,  time, activity, title, about, date, address,number_of_people_limitation, space_available, content, latitude, longitude, expected_cost_lowerbound, expected_cost_upperbound) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);'
+        db.engine.execute(sql, params)
+    except:
+        abort(400)
+    return jsonify(success=True), 200
+
+
+# 參加活動
+@app.route(app_route + "join-post", methods=['POST'])
+@login_required
+def join_post():
+    data: dict = request.get_json()
+    keys =', '.join(list(data.keys())) 
+    params = list(data.values())
+    qm = '?, ' * (len(params)-1) + '?'
+    params = tuple(params) 
+    
+    #sql = "SELECT * FROM User WHERE uid = " + str(current_user.id)
+    #datas = data_process(sql)
+
+    try:
+        sql = 'INSERT INTO Participant (' + keys + ') VALUES (' + qm + ')'
+        db.engine.execute(sql, params)
+        sql = 'UPDATE Post SET space_available=space_available-? WHERE pid=?'
+        db.engine.execute(sql, (data['number'], data['pid']))
+    except:
+        abort(400)
+    
+    return jsonify(success=True), 200
