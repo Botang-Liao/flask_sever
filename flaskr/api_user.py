@@ -18,7 +18,7 @@ def hello():
 @app.route(app_route + "get-info", methods=['GET'])
 @login_required
 def user_get_info():
-    print(str(current_user.id))
+    #(str(current_user.id))
     sql = "SELECT * FROM User WHERE uid = " + str(current_user.id)
     datas = data_process(sql)
     datas[0].pop('password_hash', None)
@@ -26,7 +26,7 @@ def user_get_info():
 
 # 得到活動資訊
 @app.route(app_route + "get-post-info", methods=['GET'])
-@login_required
+#@login_required
 def get_post_info():
     param = str(request.args.get('type','0'))  
     sql = "SELECT title, about, date, address, number_of_people_limitation, space_available, "
@@ -39,7 +39,7 @@ def get_post_info():
 
 # 得到揪團類型資訊
 @app.route(app_route + "get-activity-type-info", methods=['GET'])
-@login_required
+#@login_required
 def get_activity_type_info():
     sql = "SELECT name FROM ActivityType"
     datas = data_process_with_special_case(sql)
@@ -47,7 +47,7 @@ def get_activity_type_info():
 
 # 得到活動資訊
 @app.route(app_route + "get-activity-info", methods=['GET'])
-@login_required
+#@login_required
 def get_activity_info():
     param = str(request.args.get('type','0'))  
     sql = "SELECT name FROM Activity"
@@ -59,7 +59,7 @@ def get_activity_info():
 
 # 修改使用者資訊
 @app.route(app_route + "set-info", methods=['POST'])
-@login_required
+#@login_required
 def set_info():
     data: dict = request.get_json()
 
@@ -79,9 +79,9 @@ def set_info():
     tuples.append(current_user.id)
     sql = "UPDATE User SET email=?, username=?, password_hash=?, education=?, about=?, language=?, other_info=?, last_edit=? WHERE uid = ?"
     tuples = tuple(tuples)
-    print(tuples)
+    #print(tuples)
     db.engine.execute(sql, tuples)
-    print(datas)
+    #print(datas)
 
     return jsonify(success=True), 200
     

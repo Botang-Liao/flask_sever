@@ -1,7 +1,7 @@
 import inspect
 from datetime import timedelta
 from typing import Union
-
+from flask import session
 from flask import request, jsonify, abort
 from flask.wrappers import Response
 from flask_login import current_user, login_user, login_required, logout_user
@@ -10,6 +10,7 @@ from flaskr.user import *
 from flaskr import app
 #from flaskr.models import User, UserVerificationCode
 from flaskr.utils import *
+from flask_cors import CORS, cross_origin
 
 URL_PREFIX: str = '/api/auth/'
 
@@ -25,14 +26,18 @@ def auth_check_email():
 
 # 登入
 @app.route(URL_PREFIX + 'login', methods=['POST'])
+@cross_origin()
 def auth_login():
     data: dict = request.get_json()
     user_info: list = check_email(data['email'])
     if (user_info==[]) or (not check_password(user_info[0]['password_hash'], data['password'])):
         abort(401)
     user = User(user_info[0]['uid'])
+    
     login_user(user)
-    return jsonify(success=True), 200
+    response = jsonify(success=user_info[0]['uid'])
+    #response.set_cookie('session', 'session_id', httponly=False)
+    return response, 200
 
 # 登出
 @app.route(URL_PREFIX + 'logout', methods=['POST'])
