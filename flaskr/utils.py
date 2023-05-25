@@ -27,7 +27,7 @@ def data_process(sql: str) -> list:
         data = {}
         #print(t._mapping.items())
         for i,j in t._mapping.items():
-            print(i,j)
+            #print(i,j)
             data.setdefault(i,j)
         datas.append(data)
     return datas
@@ -35,14 +35,14 @@ def data_process(sql: str) -> list:
 def data_process_with_param(sql: str, param : tuple) -> list:
     """ Execute SQL and make datatype be a list. """
     datas = []
-    print('sql語法:', sql)
-    print('sql參數:', param)
+    #print('sql語法:', sql)
+    #print('sql參數:', param)
     tuples = db.engine.execute(sql, param)
     for t in tuples:
         data = {}
         #print(t._mapping.items())
         for i,j in t._mapping.items():
-            print(i,j)
+            #print(i,j)
             data.setdefault(i,j)
         datas.append(data)
     return datas
