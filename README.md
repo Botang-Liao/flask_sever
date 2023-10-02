@@ -1,6 +1,10 @@
 # Flask sever
 
-## Development
+This project is for the backend server of the Hobhub application, and you can develop or test in this [docker container](https://github.com/Botang-Liao/pythonFlask-workspace).
+
+The docker development environment for the flask projects based on Ubuntu 20.04 with SSH server and Ngrok installed.
+
+## Development 
 - Clone this repo
     ```shell
     $ https://github.com/Botang-l/flask_sever.git

@@ -13,3 +13,4 @@ test/
 config.py
 # System files
 .DS_Store
+local_server.py
