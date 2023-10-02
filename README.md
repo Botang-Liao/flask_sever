@@ -1,4 +1,4 @@
-# Flask sever
+# Flask server
 
 This project is for the backend server of the Hobhub application, and you can develop or test in this [docker container](https://github.com/Botang-Liao/pythonFlask-workspace).
 
