@@ -34,4 +34,4 @@ login_manager.init_app(app)
 from . import api_auth
 from . import api_user
 from . import utils
-from . import user
+from ..model import user

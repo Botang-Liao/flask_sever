@@ -6,7 +6,7 @@ from flask import request, jsonify, abort
 from flask.wrappers import Response
 from flask_login import current_user, login_user, login_required, logout_user
 from werkzeug.datastructures import FileStorage
-from flaskr.user import *
+from model.user import *
 from flaskr import app
 #from flaskr.models import User, UserVerificationCode
 from flaskr.utils import *

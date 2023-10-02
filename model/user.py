@@ -16,7 +16,6 @@ class User(UserMixin):
         self.id = id
         #self.is_anonymous = True
 
-
 @login_manager.user_loader
 def user_loader(user_id):
     return User(user_id)
